@@ -20,12 +20,14 @@ import pe.edu.upeu.consolidado.consolidado.response.ResponseFile;
 import pe.edu.upeu.consolidado.consolidado.response.ResponseMessage;
 import pe.edu.upeu.consolidado.consolidado.service.ConsolidadoService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/fileManager")
+@CrossOrigin(origins = "http://localhost:4200")
 public class fileController {
     
     @Autowired

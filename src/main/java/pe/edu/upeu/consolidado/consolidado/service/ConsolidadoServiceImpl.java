@@ -50,6 +50,7 @@ public class ConsolidadoServiceImpl implements ConsolidadoService{
 					.path(dbFile.getId().toString())
 					.toUriString();
 			return ResponseFile.builder()
+					.id(dbFile.getId())
 					.name(dbFile.getNombre())
 					.url(fileDownloadUri)
 					.type(dbFile.getTipo())
