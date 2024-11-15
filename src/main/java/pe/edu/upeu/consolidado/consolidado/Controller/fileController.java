@@ -34,10 +34,12 @@ public class fileController {
     private ConsolidadoService consolidadoService;
     
     @PostMapping("/upload")
-    public ResponseEntity<List<ResponseMessage>> uploadFiles(@RequestParam("file") List<MultipartFile> files) {
+    public ResponseEntity<List<ResponseMessage>> uploadFiles(
+            @RequestParam("file") List<MultipartFile> files,
+            @RequestParam(value = "detallePPPId", required = false) Long detallePPPId) { // Hacer detallePPPId opcional
         List<ResponseMessage> responses = files.stream().map(file -> {
             try {
-                consolidadoService.store(file);
+                consolidadoService.store(file, detallePPPId); // Pasamos el detallePPPId (puede ser null)
                 return new ResponseMessage("Archivo '" + file.getOriginalFilename() + "' subido exitosamente");
             } catch (IOException e) {
                 return new ResponseMessage("Error al subir archivo '" + file.getOriginalFilename() + "': " + e.getMessage());
@@ -46,10 +48,11 @@ public class fileController {
 
         return ResponseEntity.status(HttpStatus.OK).body(responses);
     }
-    
+
     @GetMapping("/files/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable Long id) throws FileNotFoundException {
-        Consolidado consolidado = consolidadoService.getFile(id).orElseThrow(() -> new FileNotFoundException("Archivo no encontrado con el id: " + id));
+        Consolidado consolidado = consolidadoService.getFile(id)
+                .orElseThrow(() -> new FileNotFoundException("Archivo no encontrado con el id: " + id));
 
         // Configura el tipo MIME específico o un valor genérico si no está definido
         String contentType = consolidado.getTipo() != null ? consolidado.getTipo() : "application/octet-stream";

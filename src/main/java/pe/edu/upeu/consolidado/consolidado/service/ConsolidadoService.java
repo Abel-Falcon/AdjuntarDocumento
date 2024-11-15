@@ -12,7 +12,7 @@ import pe.edu.upeu.consolidado.consolidado.response.ResponseFile;
 
 public interface ConsolidadoService {
 	
-	Consolidado store(MultipartFile file) throws	IOException;
+	Consolidado store(MultipartFile file, Long detallePPPId) throws IOException;
 	Optional<Consolidado> getFile(Long id) throws FileNotFoundException;
 	List<ResponseFile> getAllFile();
 	void deleteFile(Long id) throws FileNotFoundException;
